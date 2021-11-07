@@ -24,7 +24,7 @@ class AddEditNoteViewModel @Inject constructor(
     private var currentNoteId: Int? = null
 
     private val _noteTitle =
-        mutableStateOf<NoteTextFieldState>(NoteTextFieldState(hint = "Enter title..."))
+        mutableStateOf(NoteTextFieldState(hint = "Enter title..."))
     val noteTitle: State<NoteTextFieldState> = _noteTitle
 
     private val _noteContent =
@@ -69,7 +69,7 @@ class AddEditNoteViewModel @Inject constructor(
             }
             is AddEditNoteEvent.ChangeTitleFocus -> {
                 _noteTitle.value = _noteTitle.value.copy(
-                    isHintVisible = !event.focusState.isFocused && noteTitle.value.hint.isBlank()
+                    isHintVisible = !event.focusState.isFocused && noteTitle.value.text.isBlank()
                 )
             }
 
@@ -80,7 +80,7 @@ class AddEditNoteViewModel @Inject constructor(
             }
             is AddEditNoteEvent.ChangeContentFocus -> {
                 _noteContent.value = _noteContent.value.copy(
-                    isHintVisible = !event.focusState.isFocused && noteContent.value.hint.isBlank()
+                    isHintVisible = !event.focusState.isFocused && noteContent.value.text.isBlank()
                 )
             }
             is AddEditNoteEvent.ChangeColor -> {

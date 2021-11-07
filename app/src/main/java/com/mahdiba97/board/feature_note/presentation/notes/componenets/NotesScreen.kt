@@ -1,5 +1,6 @@
 package com.mahdiba97.board.feature_note.presentation.notes.componenets
 
+import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.mahdiba97.board.feature_note.presentation.notes.NotesEvent
 import com.mahdiba97.board.feature_note.presentation.notes.NotesViewModel
+import com.mahdiba97.board.feature_note.presentation.util.Screen
 import kotlinx.coroutines.launch
 
 @ExperimentalAnimationApi
@@ -33,7 +35,7 @@ fun NotesScreen(
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { },
+                onClick = { navController.navigate(Screen.AddEditNoteScreen.route) },
                 backgroundColor = MaterialTheme.colors.primary
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Fab")
@@ -73,9 +75,16 @@ fun NotesScreen(
             Spacer(modifier = Modifier.height(16.dp))
             LazyColumn(modifier = Modifier.fillMaxSize()) {
                 items(state.notes) { note ->
-                    NoteItem(modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { }, note = note
+                    Log.i("MyLOG", "NotesScreen: ")
+                    NoteItem(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                navController.navigate(
+                                    Screen.AddEditNoteScreen.route +
+                                            "?noteId=${note.id}&noteColor=${note.color}"
+                                )
+                            }, note = note
                     ) {
                         viewModel.onEvent(NotesEvent.DeleteNote(note))
                         coroutineScope.launch {
